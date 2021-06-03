@@ -50,13 +50,21 @@ def boardPrint(board):
 def timeStep(board, particleList):
     numParticles = len(particleList)
     for i in range(0, numParticles):
-        x = random.randint(0, len(particleList) - 1)
-        p = particleList[x]
+        p = None
+        if len(particleList) == 1:
+            p = particleList[0]
+        else:
+            x = random.randint(0, len(particleList) - 1)
+            p = particleList[x]
         sign = 1
         if random.random() < 0.5:
             sign = -1
         while ((p.getPosition() == 0 and sign == -1) or (p.getPosition() == len(board) - 1 and sign == 1)):
-            x = random.randint(0, len(particleList) - 1)
+            if len(particleList) == 1:
+                p = particleList[0]
+            else:
+                x = random.randint(0, len(particleList) - 1)
+                p = particleList[x]
             p = particleList[x]
             sign = 1
             if random.random() < 0.5:
@@ -101,7 +109,7 @@ def timeStep(board, particleList):
                     particleList.remove(q)
                     board[p.getPosition()] = 0
                     board[q.getPosition()] = 0
-    return numParticles/len(board)
+        return numParticles/len(board)
 
 
 
