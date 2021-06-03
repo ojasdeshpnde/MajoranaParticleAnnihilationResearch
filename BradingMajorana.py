@@ -50,21 +50,13 @@ def boardPrint(board):
 def timeStep(board, particleList):
     numParticles = len(particleList)
     for i in range(0, numParticles):
-        p = None
-        if len(particleList) == 1:
-            p = particleList[0]
-        else:
-            x = random.randint(0, len(particleList) - 1)
-            p = particleList[x]
+        x = random.randint(0, len(particleList) - 1)
+        p = particleList[x]
         sign = 1
         if random.random() < 0.5:
             sign = -1
         while ((p.getPosition() == 0 and sign == -1) or (p.getPosition() == len(board) - 1 and sign == 1)):
-            if len(particleList) == 1:
-                p = particleList[0]
-            else:
-                x = random.randint(0, len(particleList) - 1)
-                p = particleList[x]
+            x = random.randint(0, len(particleList) - 1)
             p = particleList[x]
             sign = 1
             if random.random() < 0.5:
@@ -109,13 +101,13 @@ def timeStep(board, particleList):
                     particleList.remove(q)
                     board[p.getPosition()] = 0
                     board[q.getPosition()] = 0
-        return numParticles/len(board)
+    return numParticles/len(board)
 
 
 
 totalAlpha = []
 totalBeta = []
-for k in range(0,1000):
+for k in range(0,100):
     print(k+1)
     numPAlpha = []
     numPBeta = []
@@ -181,7 +173,7 @@ for k in range(0,1000):
                 a = 0
                 b = 0
 
-    for j in range(0,10000):
+    for j in range(0,1000):
         numPAlpha.append(timeStep(boardAlpha, particleListAlpha))
         numPBeta.append(timeStep(boardBeta, particleListBeta))
         # Do the braiding code here
@@ -246,22 +238,18 @@ for i in range(1,len(time)):
     y.append(1/(math.sqrt(4*(math.pi)*time[i])))
     y15.append(1.5/(math.sqrt(4*(math.pi)*time[i])))
 
-cF = []
-for i in range(0,len(time)):
-    cF.append(average[i]*math.sqrt(4*math.pi*time[i]))
 
 
-# plt.yscale("log")
-# plt.xscale("log")
-# plt.plot(time, y)
-# plt.plot(time, y2)
-# plt.plot(time, y15)
-# plt.plot(time,averageAlpha)
-# plt.plot(time, averageBeta)
-# plt.plot(time, average)
-# plt.legend(["Constant = 1", "Constant = 2", "Constant = 1.5" ,"Alpha", "Beta", "Average"], loc = "upper right")
-plt.plot(time, cF)
+plt.yscale("log")
+plt.xscale("log")
+plt.plot(time, y)
+plt.plot(time, y2)
+plt.plot(time, y15)
+plt.plot(time,averageAlpha)
+plt.plot(time, averageBeta)
+plt.plot(time, average)
+plt.legend(["Constant = 1", "Constant = 2", "Constant = 1.5" ,"Alpha", "Beta", "Average"], loc = "upper right")
 plt.xlabel('Time')
 plt.ylabel('Particle Density')
-# plt.errorbar(time, average, yerr = totalStd, fmt = "o",color="r")
+plt.errorbar(time, average, yerr = totalStd, fmt = "o",color="r")
 plt.show()
